@@ -1,56 +1,18 @@
 # TEAM ADCS
 
-One Paragraph of project description goes here
+Team ADCS is a Mississippi State Snr Design project. ADCS stands for Autonomous Drone Charging Station, and as you can tell in the title, it is to autonomously charge a drone so the user does not have to be there. To read more about the project, <a href="https://design.ece.msstate.edu/2018/team_thomas/">click here!</a> Each directory contains code for a subsytem of the project and contains it's own README file explaining how to impliment the code. This is not a step by step instruction on how to build the ADCS, it is a place for the team to store and modify code.
 
-## Getting Started
+## Getting Started - List of the directories and what they do.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Charging_Code - Contains stuff from Pebo.
+Main_Code - Conatins stuff from Pebo.
+Motor_Code - Contains stuff from Pebo.
+Particle_Electron - Contains stuff from Slushy.
+Web_Code - Contains stuff from Slushy.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+The pre-reqs for most of this code is that you have to have the hardware that is given in each README(arduino, electron, etc.).
 
 ## Deployment
 
@@ -62,19 +24,11 @@ Add additional notes about how to deploy this on a live system
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Slushygod
+PhenomenalPebo
 
 ## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+Acks
 <br><img src="https://github.com/SlushyGod/adcs/blob/master/tenor.gif">
