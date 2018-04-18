@@ -1,6 +1,6 @@
 # Particle Electron
 
-This is the code for the communication module Particle Electron. This uses arduino based code which is very similar to C. The particle Electron online IDE was used to develop and compile this code(link found below). The electron is the main communication between the ADCS and the web application, and is currently the only way to communicate to it. Look in the code for comments on how to communicate to the electron, or scroll to the bottom to see how the ways to communicate to it.<br>
+This is the code for the communication module Particle Electron. This uses arduino based code which is very similar to C. The particle Electron online IDE was used to develop and compile this code(link found below). The electron is the main communication between the ADCS and the web application, and is currently the only way to communicate to it. First the web application communicates to the electron, then the electron relays this message to the arduino. The same process works in the reverse so that the user can communicate to the ADCS. Look in the code for comments to see the specifics of the communication, or scroll to the bottom to view it in more detail.<br>
 ```
 firmware.bin - This is the compiled binary file<br>
 adcsv1.ino - This is the arduino code (fully commented)
@@ -38,3 +38,42 @@ Slushyman
 ## Acknowledgments
 
 Pebo & Stephen
+
+## Communication
+### Application Communication
+When calling functions from the application to the electron then you must use the format:
+```
+FORMAT
+```
+When calling variables from the application to the electron then you must use the format:
+```
+FORMAT
+```
+These are the current functions:
+These are the current variables:
+### Arduino Communication
+The electron sends information through it's serial ports at a 9600 baud rate. After each message it sends a '\n' character to indicate that the message is finished. It also recieves data in a similar way and expects a '\n' to indicate that the message is finished.<br>
+Different signals can be sent from the electron such as:<br>
+COMMAND - controls the ADCS
+The format it sends:
+```
+COMMAND OPEN
+```
+Commands:
+  *OPEN - This will send a command to open the ADCS
+  CLOSE - This will send a command to close the ADCS
+  CHECK - This will send a command to check if the drone is in a good position to charge
+  CHARGE - This will send a command to charge the drone*<br>
+UPDATE - updates drone information for the ADCS
+```
+UPDATE DRONE SIZE 12
+```
+Updates:
+  *DRONE_SIZE
+  BATTERY_SIZE*
+
+Different signals can be recieved to the electron such as:
+COMMAND - controls the ADCS
+ERROR - relays error messages to the user
+WARNING - relays warning messages to the user
+
