@@ -77,5 +77,4 @@ See also the list of [contributors](https://github.com/your/project/contributors
 * Hat tip to anyone who's code was used
 * Inspiration
 * etc
-<br><img src="https://github.com/SlushyGod/adcs/blob/master/tenor.gif">
 
