@@ -1,8 +1,10 @@
 # Particle Electron
 
 This is the code for the communication module Particle Electron. This uses arduino based code which is very similar to C. The particle Electron online IDE was used to develop and compile this code(link found below). The electron is the main communication between the ADCS and the web application, and is currently the only way to communicate to it. Look in the code for comments on how to communicate to the electron, or scroll to the bottom to see how the ways to communicate to it.<br>
+```
 firmware.bin - This is the compiled binary file<br>
 adcsv1.ino - This is the arduino code (fully commented)
+```
 
 ## Getting Started
 
