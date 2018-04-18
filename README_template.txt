@@ -78,3 +78,5 @@ See also the list of [contributors](https://github.com/your/project/contributors
 * Inspiration
 * etc
 
+## Communication and extra stuff
+Put how the code communicates to other code (baudrate, serial, the data it sends, stuff like that)
