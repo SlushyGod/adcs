@@ -4,10 +4,10 @@ Team ADCS is a Mississippi State Snr Design project. ADCS stands for Autonomous 
 
 ## Getting Started - List of the directories and what they do.
 
-Charging_Code - Contains stuff from Pebo.
-Main_Code - Conatins stuff from Pebo.
-Motor_Code - Contains stuff from Pebo.
-Particle_Electron - Contains stuff from Slushy.
+Charging_Code - Contains stuff from Pebo.<br>
+Main_Code - Conatins stuff from Pebo.<br>
+Motor_Code - Contains stuff from Pebo.<br>
+Particle_Electron - Contains stuff from Slushy.<br>
 Web_Code - Contains stuff from Slushy.
 
 ### Prerequisites
@@ -18,17 +18,10 @@ The pre-reqs for most of this code is that you have to have the hardware that is
 
 Add additional notes about how to deploy this on a live system
 
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
 ## Authors
 
-Slushygod
-PhenomenalPebo
+Slushygod<br>
+PhenomenalPebo<br>
 
-## Acknowledgments
-Acks
+## LETS DO THIS
 <br><img src="https://github.com/SlushyGod/adcs/blob/master/tenor.gif">
