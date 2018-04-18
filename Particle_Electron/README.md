@@ -15,7 +15,11 @@ The software is from the Particle Electron site and can be found <a href="https:
 
 ### Installing
 
-Compile arduino code from Particle's development website into a binary file, and make sure that you have the software that can upload the file to the electron. Then go to the directory that the binary file is in and type "particle flash --serial [your binary file]". Hold the "mode" button on the electron to make the LED start flashing blue, indicating that code can be uploaded.
+Compile arduino code from Particle's development website into a binary file, and make sure that you have the software that can upload the file to the electron. Then go to the directory that the binary file is in and type:
+```
+particle flash --serial [your binary file]
+```
+Hold the "mode" button on the electron to make the LED start flashing blue, indicating that code can be uploaded.
 
 ## Deployment
 
