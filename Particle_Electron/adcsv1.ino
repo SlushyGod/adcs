@@ -206,18 +206,21 @@ void command_ack(){
         adcs_state="Opened";
         adcs_moving=false;
         Serial.print("Adcs is opened");
+        Particle.publish("adcs_state", adcs_state);
     }
     if(strcmp(token_array[2],"CLOSE")==0){
         adcs_state="Closed";
         adcs_moving=false;
-        Serial.print("Adcs is closed");
+        Particle.publish("adcs_state", adcs_state);
     }
     if(strcmp(token_array[2],"CHECK")==0){
         if(strcmp(token_array[3],"GOOD")==0){
             drone_pos=1;
+            Particle.publish("drone_pos", (char *)drone_pos);
         }
         else{
-            drone_pos=-1;
+            drone_pos=0;
+            Particle.publish("drone_pos", (char *)drone_pos);
         }
     }
     if(strcmp(token_array[2],"CHARGE")==0){
@@ -317,11 +320,12 @@ Current commands:
 OPEN
 CLOSE
 CHECK
-CHARGE
+CHARGE ON
+CHARGE OFF
 */
 int control_adcs(String word) {
     if(word=="open"){
-        if(adcs_state=="Closed" || adcs_state=="Limbo"){
+        if(adcs_state=="Closed" || adcs_state=="Limbo" || adcs_charge!=1){
             Serial1.write("COMMAND OPEN");
             Serial1.write('\n');
             digitalWrite(led,HIGH);
@@ -358,11 +362,18 @@ int control_adcs(String word) {
             return -1;
         }
     }
-    else if(word=="charge"){
-        if(drone_pos==1){
-            Serial1.write("COMMAND CHARGE");
+    else if(word=="chargeon"){
+        if(drone_pos==1 && adcs_state=="Closed"){
+            Serial1.write("COMMAND CHARGE ON");
             Serial1.write('\n');
         }
+        else{
+            return -1;
+        }
+    }
+    else if(word=="chargeoff"){
+        Serial1.write("COMMAND CHARGE OFF");
+        Serial1.write('\n');
     }
     else{
         return 0;
