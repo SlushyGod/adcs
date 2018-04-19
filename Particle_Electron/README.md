@@ -64,7 +64,7 @@ Commands:<br>
   CLOSE - This will send a command to close the ADCS<br>
   CHECK - This will send a command to check if the drone is in a good position to charge<br>
   CHARGE ON - This will send a command to charge the drone<br>
-  CHARGE OFF - This will send a command to stop charging the drone*<br>
+  CHARGE OFF - This will send a command to stop charging the drone*<br><br>
 UPDATE - updates drone information for the ADCS
 ```
 UPDATE DRONE SIZE 12
@@ -85,14 +85,14 @@ Commands:
   CHECK GOOD - Tells the ADCS that the drone is in a good position<br>
   CHECK BAD - Tells the ADCS that the drone is in a bad position<br>
   CHARGE ON - Tells the ADCS that it has started charging.<br>
-  CHARGE OFF - Tells the ADCS that is has stopped charging*<br>
+  CHARGE OFF - Tells the ADCS that is has stopped charging*<br><br>
 ERROR - relays error messages to the user, set the specific number to error in the website txt file
 ```
 ERROR ADD 1234
 ```
 Error:<br>
   *ADD - Adds an error so the user can see it<br>
-  RESOLVE - Removes the error*<br>
+  RESOLVE - Removes the error*<br><br>
 WARNING - relays warning messages to the user
 ```
 WARNING ADD 1234
