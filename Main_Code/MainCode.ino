@@ -1,8 +1,3 @@
-/*
-HI :) ITS ME, LARRY...
-HI :) ITS ME, DIRTY DAN!
-HI :) ITS ME AS WELL!
-*/
 #include <stdlib.h>
 
 /*Laser Sensor Stuff*/
@@ -25,27 +20,51 @@ byte b1, b2;              // Bytes for conversion to an integer.
 #define L_ON    LOW
 #define L_OFF   HIGH
 
+ /*
+Switches between checking and charging mode.
+When the relay is high (off), the voltage sensor is active.
+When the relay is low (on), the voltage sensor is inactive. 
+*/
+#define VOLT_M 38 
+
+// Defines the On/Off commands for the relays.
+#define ON  LOW
+#define OFF HIGH
+
+bool once = true; // Stops the scan from running continuosly.
+int value = 10;   // Number of contacts found by check().
+int conts[10];    // Holds plates with contacts on them.
+
 const size_t READ_BUFF_SIZE = 64;
 char read_buff[READ_BUFF_SIZE];
 size_t buffer_i = 0;
 
 void setup() {
-    Serial.begin(9600);
+  Serial.begin(9600);
+  
+  // Lift Setup Code
+  pinMode(ledPin,OUTPUT);
+  pinMode(RELAY1,OUTPUT);
+  pinMode(RELAY2,OUTPUT);
+  digitalWrite(ledPin, LOW);
+  digitalWrite(RELAY1,L_OFF);
+  digitalWrite(RELAY2,L_OFF);
+  
+  // Laser Sensor Setup Code
+  // Waits until serial port opens for native USB devices.
+  while (!Serial) delay(1);
+  
+  // Checks if sensor object failed to be created.
+  if (!lox.begin()) fail = true;
 
-    // Lift Setup Code
-    pinMode(ledPin,OUTPUT);
-    pinMode(RELAY1,OUTPUT);
-    pinMode(RELAY2,OUTPUT);
-    digitalWrite(ledPin, LOW);
-    digitalWrite(RELAY1,L_OFF);
-    digitalWrite(RELAY2,L_OFF);
-
-    // Laser Sensor Setup Code
-    // Waits until serial port opens for native USB devices.
-    while (!Serial) delay(1);
-
-    // Checks if sensor object failed to be created.
-    if (!lox.begin()) fail = true;
+  // Charging plate setup.
+  for (int i = 1; i <= 16; i++)
+  {
+    pinMode(i+21,OUTPUT);
+    digitalWrite(i+21,OFF);
+  }
+  pinMode(VOLT_M,OUTPUT);
+  digitalWrite(VOLT_M,OFF);
 }
 
 void loop() {
@@ -164,13 +183,54 @@ void update_battery(double battery){
 
 /*This will look to see what command is sent and send it to the correct function*/
 void process_command(char **tokens){
+  int check_val;
   if(strcmp(tokens[1],"OPEN")==0){
     command_open();
   }
   if(strcmp(tokens[1],"CLOSE")==0){
     command_close();
   }
+  if(strcmp(tokens[1],"CHECK")==0){
+    check_val = command_check();
+    if (check_val == 2) ack_command("check good");//ack back if the check succeeds.
+    else ack_command("check bad");//ack back if the check fails.
+  }
+  if(strcmp(tokens[1],"CHARGE ON")==0){
+    check_val = command_check();
+    if (check_val == 2) {
+      ack_command("check good");//ack back if the check succeeds.
+      digitalWrite(VOLT_M,ON);
+      digitalWrite(conts[0]+21,ON);
+      ack_command("charging");//ack back when adcs is charging.
+    }
+    else ack_command("check bad");//ack back if the check fails.
+  }
+  if(strcmp(tokens[1],"CHARGE OFF")==0){
+    for (int i = 1; i <= 16; i++) digitalWrite(i+21,OFF);
+    digitalWrite(VOLT_M,OFF);
+    ack_command("not charging");//ack back when adcs isn't charging.
+  }
   deallocate_mem(tokens);
+}
+
+/*Function to check for contacts*/
+int command_check(){
+  digitalWrite(VOLT_M,OFF);
+  float sensorValue;
+  int contact = 0;
+  for (int i = 1; i <= 16; i++)
+  {
+    digitalWrite(i+21,ON);
+    delay(50);
+    sensorValue = analogRead(A0);
+    if (sensorValue > 100)
+    {
+      conts[contact] = i;
+      contact++;
+    }
+    digitalWrite(i+21,OFF);
+  }
+  return contact;
 }
 
 /*Function to open the ADCS*/
@@ -282,42 +342,23 @@ void doorWaitClose(){
 
 /*Function that raises the lift*/
 void liftUp(){
-  /*
-   * Actual Code:
-   *  digitalWrite(RED_L,LOW);
-   *  digitalWrite(BLACK_L,HIGH);
-  */
   digitalWrite(RELAY1,L_ON);
   digitalWrite(RELAY2,L_OFF);
 }
 
 /*Function that lowers the lift*/
 void liftDown(){
-  /*
-   * Actual Code:
-   *  digitalWrite(RED_L,HIGH);
-   *  digitalWrite(BLACK_L,LOW);
-  */
   digitalWrite(RELAY1,L_OFF);
   digitalWrite(RELAY2,L_ON);
 }
 
 /*Function that stops lift actions*/
 void liftStop(){
-  /*
-   * Actual Code:
-   *  digitalWrite(RED_L,LOW);
-   *  digitalWrite(BLACK_L,LOW);
-  */
   digitalWrite(RELAY1,L_OFF);
   digitalWrite(RELAY2,L_OFF);
 }
 
 void liftWait(String phrase){
-  /*
-   * Actual Code:
-   *  
-  */
   while(1)
   {
     VL53L0X_RangingMeasurementData_t measure; 
@@ -338,77 +379,32 @@ void liftWait(String phrase){
   }
 }
 
-void liftWaitUp(){
-  /*
-   * Actual Code:
-   *  
-  */
-  
-
-  VL53L0X_RangingMeasurementData_t measure1;
-  Serial.println("Going Up");
-  while(1)
-  {
-    
-
-    // Gets measurement information.
-    lox.rangingTest(&measure1, false);
-    
-    // Executes if object is in range.
-    if (measure1.RangeStatus != 4)
-    {
-      // Gets the current height.
-      range = measure1.RangeMilliMeter;
-  
-      // Runs if maximum height is exceeded.
-      if (range >= max_height) return;
-    }
-    else return;
-  }
-}
-
-void liftWaitDown(){
-  /*
-   * Actual Code:
-   * 
-  */
-  VL53L0X_RangingMeasurementData_t measure2;
-  Serial.println("Going Down");
-
-  while(1)
-  {
-    
-
-    // Gets measurement information.
-    lox.rangingTest(&measure2, false);
-    
-    // Executes if object is in range.
-    if (measure2.RangeStatus != 4)
-    {
-      // Gets the current height.
-      range = measure2.RangeMilliMeter;
-  
-      // Runs if maximum height is exceeded.
-      if (range <= min_height) return;
-    }
-    else return;
-  }
-}
-
 /*Send a string to this command to ack back that the command succeded
 Ack:open;close
 */
 void ack_command(String command){
   if(command=="open"){
-    //Serial.print("ACK COMMAND OPEN");
     Serial.write("ACK COMMAND OPEN");
     Serial.write('\n');
-    //Serial.print('\n');
   }
   if(command=="close"){
     Serial.write("ACK COMMAND CLOSE");
     Serial.write('\n');
-    //Serial.print("ACK COMMAND CLOSE");
-    //Serial.print('\n');
+  }
+  if(command=="check good"){
+    Serial.write("ACK COMMAND CHECK GOOD");
+    Serial.write('\n');
+  }
+  if(command=="check bad"){
+    Serial.write("ACK COMMAND CHECK BAD");
+    Serial.write('\n');
+  }
+  if(command=="charging"){
+    Serial.write("ACK COMMAND CHARGE ON");
+    Serial.write('\n');
+  }
+  if(command=="not charging"){
+    Serial.write("ACK COMMAND CHARGE OFF");
+    Serial.write('\n');
   }
 }
