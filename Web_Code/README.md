@@ -1,2 +1,2 @@
-#Web Application Code
-This is the code that makes the web application work.
+# Web Application Code
+Code can be found in the school directory.
