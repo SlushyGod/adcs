@@ -53,27 +53,50 @@ These are the current functions:
 These are the current variables:
 ### Arduino Communication
 The electron sends information through it's serial ports at a 9600 baud rate. After each message it sends a '\n' character to indicate that the message is finished. It also recieves data in a similar way and expects a '\n' to indicate that the message is finished.<br>
-Different signals can be sent from the electron such as:<br>
-COMMAND - controls the ADCS
-The format it sends:
+#### Different signals can be sent from the electron such as:
+COMMAND - controls the ADCS<br>
+The format it sends:<br>
 ```
 COMMAND OPEN
 ```
-Commands:
-  *OPEN - This will send a command to open the ADCS
-  CLOSE - This will send a command to close the ADCS
-  CHECK - This will send a command to check if the drone is in a good position to charge
-  CHARGE - This will send a command to charge the drone*<br>
+Commands:<br>
+  *OPEN - This will send a command to open the ADCS<br>
+  CLOSE - This will send a command to close the ADCS<br>
+  CHECK - This will send a command to check if the drone is in a good position to charge<br>
+  CHARGE ON - This will send a command to charge the drone<br>
+  CHARGE OFF - This will send a command to stop charging the drone*<br>
 UPDATE - updates drone information for the ADCS
 ```
 UPDATE DRONE SIZE 12
 ```
-Updates:
-  *DRONE_SIZE
+Updates:<br>
+  *DRONE_SIZE<br>
   BATTERY_SIZE*
 
-Different signals can be recieved to the electron such as:
-COMMAND - controls the ADCS
-ERROR - relays error messages to the user
+#### Different signals can be recieved to the electron such as:
+COMMAND - controls the ADCS<br>
+The format it recieves:<br>
+```
+ACK COMMAND OPEN
+```
+Commands:
+  *OPEN - Tells the ADCS that it is open<br>
+  CLOSE - Tells the ADCS that it is closed<br>
+  CHECK GOOD - Tells the ADCS that the drone is in a good position<br>
+  CHECK BAD - Tells the ADCS that the drone is in a bad position<br>
+  CHARGE ON - Tells the ADCS that it has started charging.<br>
+  CHARGE OFF - Tells the ADCS that is has stopped charging*<br>
+ERROR - relays error messages to the user, set the specific number to error in the website txt file
+```
+ERROR ADD 1234
+```
+Error:<br>
+  *ADD - Adds an error so the user can see it<br>
+  RESOLVE - Removes the error*<br>
 WARNING - relays warning messages to the user
-
+```
+WARNING ADD 1234
+```
+Warning:<br>
+  *ADD - Adds a warning so the user can see it<br>
+  RESOLVE - Removes the warning*<br>
