@@ -56,7 +56,7 @@ These are the current functions:<br>
   *cntrl_adcs - takes a string that will be used to control the adcs, current strings are: open, close, check, chargeon, chargeoff<br>
   updt_adcs - takes a string delimited by semi-colons that says what the drone size and battery is*<br><br>
 
-These are the current variables:
+These are the current variables:<br>
   *string state - displays the state of the ADCS, current states are: Closed, Closing, Opened, Opening, Limbo<br>
   int     batt - displays the value of the battery based on a number 0-10<br>
   int     error - displays how many errors there are<br>
