@@ -53,18 +53,18 @@ https://api.particle.io/v1/devices/[device ID]/[variable name]?access_token=[acc
 method: GET
 ```
 These are the current functions:<br>
-  *cntrl_adcs - takes a string that will be used to control the adcs, current strings are: open, close, check, chargeon, chargeoff
+  *cntrl_adcs - takes a string that will be used to control the adcs, current strings are: open, close, check, chargeon, chargeoff<br>
   updt_adcs - takes a string delimited by semi-colons that says what the drone size and battery is*<br><br>
 
 These are the current variables:
-  *string state - displays the state of the ADCS, current states are: Closed, Closing, Opened, Opening, Limbo
-  int     batt - displays the value of the battery based on a number 0-10
-  int     error - displays how many errors there are
-  string  errno - list of error codes that are delimited by semi-colons, the codes are 4 digit format (0259) and correlate to an error.txt file
-  int     warn - displays how many warnings there are
-  string  warnno - list of warning codes that are delimited by semi-colons, the codes are 4 digit format (0259) and correlate to a warning.txt file
-  string  sig - displays the signal strength of the electron, those ratings are: Excellent, Good, Ok, Poor, Non-Existent
-  int     drnPos - displays if the position of the drone is good, 1 means the drone is seen, 0 means to reposition
+  *string state - displays the state of the ADCS, current states are: Closed, Closing, Opened, Opening, Limbo<br>
+  int     batt - displays the value of the battery based on a number 0-10<br>
+  int     error - displays how many errors there are<br>
+  string  errno - list of error codes that are delimited by semi-colons, the codes are 4 digit format (0259) and correlate to an error.txt file<br>
+  int     warn - displays how many warnings there are<br>
+  string  warnno - list of warning codes that are delimited by semi-colons, the codes are 4 digit format (0259) and correlate to a warning.txt file<br>
+  string  sig - displays the signal strength of the electron, those ratings are: Excellent, Good, Ok, Poor, Non-Existent<br>
+  int     drnPos - displays if the position of the drone is good, 1 means the drone is seen, 0 means to reposition<br>
   int     charge - displays if the drone is charging, 1 means charging, 0 means not charging*
 ### Arduino Communication
 The electron sends information through it's serial ports at a 9600 baud rate. After each message it sends a '\n' character to indicate that the message is finished. It also recieves data in a similar way and expects a '\n' to indicate that the message is finished.<br>
