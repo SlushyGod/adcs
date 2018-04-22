@@ -19,7 +19,7 @@ String adcs_state;//can be Opened, Closed, Opening, Closing
 String adcs_errno;
 String adcs_warnno;
 String adcs_signal;
-int adcs_battery;//any number from 0-10
+String adcs_battery;//any number from 0-10
 int adcs_error;
 int adcs_warning;
 int drone_pos;//0 is drone neutral, 1 is drone is good, -1 is drone is bad
@@ -51,7 +51,7 @@ void setup() {
     Particle.variable("charge",adcs_charge);
     //Particle.variable("bub",bubble);
     adcs_state="Closed";
-    adcs_battery=9;
+    adcs_battery="0";
     adcs_error=0;
     adcs_warning=0;
     adcs_errno="1234;8790;3428;";
@@ -105,7 +105,7 @@ void loop() {
 	/*This is to check the battery life and signal strength every 5 minutes*/
 	if (millis() - last_time >= BATTERY_TIMEOUT) {
 		last_time = millis();
-		//check_battery();
+		check_battery();
 		check_signal();
 	}
 }
@@ -216,11 +216,11 @@ void command_ack(){
     if(strcmp(token_array[2],"CHECK")==0){
         if(strcmp(token_array[3],"GOOD")==0){
             drone_pos=1;
-            Particle.publish("drone_pos", (char *)drone_pos);
+            Particle.publish("drone_pos", String(drone_pos));
         }
         else{
             drone_pos=0;
-            Particle.publish("drone_pos", (char *)drone_pos);
+            Particle.publish("drone_pos", String(drone_pos));
         }
     }
     if(strcmp(token_array[2],"CHARGE")==0){
@@ -234,12 +234,22 @@ void command_ack(){
     deallocate_mem();
 }
 
+/*update_ack will update the variables that was changed when it initially sent a command
+How it looks:   ACK UPDATE VOLTAGE 90
+Current commands:
+VOLTAGE
+*/
 void update_ack(){
+    if(strcmp(token_array[2],"VOLTAGE")==0){
+        adcs_battery=token_array[3];
+    }
     deallocate_mem();
 }
 
+/* Check battery requests the battery through an update command*/
 void check_battery(){
-    //do all your battery stuff then update the variable
+    Serial1.write("UPDATE VOLTAGE");
+    Serial1.write('\n');
 }
 
 /*This function will check the signal strength of the particle electron
@@ -325,7 +335,7 @@ CHARGE OFF
 */
 int control_adcs(String word) {
     if(word=="open"){
-        if(adcs_state=="Closed" || adcs_state=="Limbo" || adcs_charge!=1){
+        if((adcs_state=="Closed" || adcs_state=="Limbo") && adcs_charge!=1){
             Serial1.write("COMMAND OPEN");
             Serial1.write('\n');
             digitalWrite(led,HIGH);
@@ -366,6 +376,7 @@ int control_adcs(String word) {
         if(drone_pos==1 && adcs_state=="Closed"){
             Serial1.write("COMMAND CHARGE ON");
             Serial1.write('\n');
+            return 1;
         }
         else{
             return -1;
