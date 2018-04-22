@@ -85,8 +85,9 @@ UPDATE - updates drone information for the ADCS
 UPDATE DRONE SIZE 12
 ```
 Updates:<br>
-  *DRONE_SIZE<br>
-  BATTERY_SIZE*
+  *DRONE_SIZE - will send the drone size in cm, the number after drone_size will be the size<br>
+  BATTERY_SIZE - will send the battery size, the number after battery_size will be the size<br>
+  VOLTAGE - asks to get the voltage of the battery*
 
 #### Different signals can be recieved to the electron such as:
 COMMAND - controls the ADCS<br>
@@ -101,6 +102,13 @@ Commands:
   CHECK BAD - Tells the ADCS that the drone is in a bad position<br>
   CHARGE ON - Tells the ADCS that it has started charging.<br>
   CHARGE OFF - Tells the ADCS that is has stopped charging*<br><br>
+UPDATE - updates status of ADCS<br>
+The format it recieves:<br>
+```
+ACK UPDATE VOLTAGE 90%
+```
+Update:
+ *VOLTAGE - takes a string value of the voltage and gives it to the user*<br><br>
 ERROR - relays error messages to the user, set the specific number to error in the website txt file
 ```
 ERROR ADD 1234
