@@ -51,11 +51,11 @@ void setup() {
     Particle.variable("charge",adcs_charge);
     //Particle.variable("bub",bubble);
     adcs_state="Closed";
-    adcs_battery="0";
+    adcs_battery="100%";
     adcs_error=0;
     adcs_warning=0;
-    adcs_errno="1234;8790;3428;";
-    adcs_warnno="0000;4563;7686;";
+    adcs_errno="1234;";
+    adcs_warnno="";
     drone_pos=0;
     adcs_charge=0;
 
@@ -226,9 +226,11 @@ void command_ack(){
     if(strcmp(token_array[2],"CHARGE")==0){
         if(strcmp(token_array[3],"ON")==0){
             adcs_charge=1;
+            Particle.publish("drone_charge",String(adcs_charge));
         }
         else{
             adcs_charge=0;
+            Particle.publish("drone_charge",String(adcs_charge));
         }
     }
     deallocate_mem();
@@ -242,6 +244,7 @@ VOLTAGE
 void update_ack(){
     if(strcmp(token_array[2],"VOLTAGE")==0){
         adcs_battery=token_array[3];
+        Particle.publish("battery",token_array[3]);
     }
     deallocate_mem();
 }
